@@ -194,11 +194,12 @@ export default function PlayerScreen() {
       <ImageBackground
         source={{ uri: currentSong.image }}
         style={{ flex: 1 }}
+        blurRadius={3}
         resizeMode="cover"
       >
         {/* 👉 Blur overlay */}
         <BlurView
-          intensity={35}
+          intensity={45}
           tint="dark"
           style={{
             ...StyleSheet.absoluteFillObject,
@@ -373,60 +374,62 @@ export default function PlayerScreen() {
           >
             {/* UI cũ của bạn giữ nguyên */}
             <Text style={styles.title}>Đang phát</Text>
+            <View style={{ alignItems: "center" }}>
+              <Animated.Image
+                source={{ uri: currentSong.image }}
+                style={[styles.image, { transform: [{ rotate }] }]}
+              />
 
-            <Animated.Image
-              source={{ uri: currentSong.image }}
-              style={[styles.image, { transform: [{ rotate }] }]}
-            />
-
-            <Text style={styles.name}>{currentSong.name}</Text>
-            <Text style={styles.artist}>{currentSong.artist}</Text>
-
-            <Slider
-              style={{ width: "90%" }}
-              minimumValue={0}
-              maximumValue={duration}
-              value={position}
-              onSlidingComplete={seekTo}
-            />
-
-            <View style={styles.time}>
-              <Text style={{ color: "white" }}>{format(position)}</Text>
-              <Text style={{ color: "white" }}>{format(duration)}</Text>
+              <Text style={styles.name}>{currentSong.name}</Text>
+              <Text style={styles.artist}>{currentSong.artist}</Text>
             </View>
+            <View style={{ width: "100%", alignItems: "center" }}>
+              <Slider
+                style={{ width: "90%" }}
+                minimumValue={0}
+                maximumValue={duration}
+                value={position}
+                onSlidingComplete={seekTo}
+              />
 
-            <View style={styles.controls}>
-              <TouchableOpacity onPress={() => setIsShuffle(!isShuffle)}>
-                <Ionicons
-                  name="shuffle"
-                  size={28}
-                  color={isShuffle ? "green" : "white"}
-                />
-              </TouchableOpacity>
+              <View style={styles.time}>
+                <Text style={{ color: "white" }}>{format(position)}</Text>
+                <Text style={{ color: "white" }}>{format(duration)}</Text>
+              </View>
 
-              <TouchableOpacity onPress={playPrev}>
-                <Ionicons name="play-skip-back" size={32} color="white" />
-              </TouchableOpacity>
+              <View style={styles.controls}>
+                <TouchableOpacity onPress={() => setIsShuffle(!isShuffle)}>
+                  <Ionicons
+                    name="shuffle"
+                    size={28}
+                    color={isShuffle ? "green" : "white"}
+                  />
+                </TouchableOpacity>
 
-              <TouchableOpacity onPress={toggle}>
-                <Ionicons
-                  name={isPlaying ? "pause" : "play"}
-                  size={45}
-                  color="white"
-                />
-              </TouchableOpacity>
+                <TouchableOpacity onPress={playPrev}>
+                  <Ionicons name="play-skip-back" size={32} color="white" />
+                </TouchableOpacity>
 
-              <TouchableOpacity onPress={playNext}>
-                <Ionicons name="play-skip-forward" size={32} color="white" />
-              </TouchableOpacity>
+                <TouchableOpacity onPress={toggle}>
+                  <Ionicons
+                    name={isPlaying ? "pause" : "play"}
+                    size={45}
+                    color="white"
+                  />
+                </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => setIsRepeat(!isRepeat)}>
-                <Ionicons
-                  name="repeat"
-                  size={28}
-                  color={isRepeat ? "green" : "white"}
-                />
-              </TouchableOpacity>
+                <TouchableOpacity onPress={playNext}>
+                  <Ionicons name="play-skip-forward" size={32} color="white" />
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={() => setIsRepeat(!isRepeat)}>
+                  <Ionicons
+                    name="repeat"
+                    size={28}
+                    color={isRepeat ? "green" : "white"}
+                  />
+                </TouchableOpacity>
+              </View>
             </View>
           </Animated.View>
         </View>
@@ -440,7 +443,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "transparent",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "space-between",
+    paddingVertical: 110,
   },
   title: { color: "white", marginBottom: 20 },
   image: {
